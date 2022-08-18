@@ -1,9 +1,10 @@
-import htmlgen
 import jester
 
 import views/encrypt
 import views/decrypt
 import views/keys
+import views/components
+
 # Learn show to set ENV
 
 type
@@ -34,26 +35,14 @@ settings:
   port        = Port(5040)
   staticDir = "./public"
 
-const AFTER_CLICK = """
-  <p>Foobar</p>
-"""
-
-const KEY_OPTIONS = """
- <option>alex</option>
-  <option>alex</option>
-  <option>alex</option>
-  <option>alex</option>
-  <option>alex</option>
-  <option>alex</option>
-  <option>alex</option>
-"""
-
-func interactBus(name: string): string = 
-  case name
-  of  "key-select":
-    return KEY_OPTIONS
+func template_encrypt_components(component: string): string = 
+  case component
+  of  "encrypt-box":
+    return actionBox("encrypt-box", "ENCRYPTING YO SECRETS FOOL ☆ ～('▽^人)", "☆ ～('▽^人)")
+  of  "copy-box":
+    return actionBox("copy-box", "☆ ～('▽^人)", "☆ ～('▽^人)")
   else:
-    return ""
+    return "( ´ ∀ `)ノ～ ♡ Failed ♡ "
   # check key for correct return interactions
 
 
@@ -62,6 +51,11 @@ routes:
     resp template_encrypt()
   get "/encrypt":
     resp template_encrypt()
+  post "/encrypt":
+    resp template_encrypt()
+  # possible scoping style of htmx interaction
+  post "/ux/encrypt/@component":
+    resp template_encrypt_components(@"component")
   get "/decrypt":
     resp template_decrypt()
   post "/decrypt/@id":
@@ -76,5 +70,3 @@ routes:
     resp template_key_create()
   get "/keys/import":
     resp template_key_create()
-  post "/x/@name":
-    resp interactBus(@"name")

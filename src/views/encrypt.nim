@@ -1,50 +1,19 @@
-func template_encrypt*(): string = 
-  return """
-    <!DOCTYPE html>
-      <head>
-      <title>Hello</title>
-      <link rel="stylesheet" href="/reasonable-colors.css">
-      <link rel="stylesheet" href="/main.css">
-      <script src="/htmx.js" ></script>
-      <link rel="preconnect" href="https://fonts.googleapis.com">
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-      <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@100;200;500&amp;display=swap" rel="stylesheet"> 
+import niml
+import components
 
-      </head>
-      <body>
-        <div id="app">
-          <div class="nav grid-container">
-            <a href="/" class="active">encrypt</a
-            ><a href="/decrypt" class="">decrypt</a
-            ><a href="/keys" >keys</a>
-          </div>
-          <div class="page">
-            <div class="grid-container grid-1-2-2-v">
-              <div
-                class="recipients-selector box thin filled grid-container grid-1-2-h"
-              >
-                <span class="title">for key:</span>
-                <select class="">
-                  <option>alex</option>
-                  <option>alex</option>
-                  <option>alex</option>
-                  <option>alex</option>
-                  <option>alex</option>
-                  <option>alex</option>
-                  <option>alex</option>
-                </select>
-              </div>
-              <div class="box">
-              <textarea class="borderless"></textarea>
-              <button class="primary">Encrypt #</button>
-              </div>
-              <div class="box">
-               <textarea class="borderless"></textarea>
-              <button class="primary">Copy []</button></div>
-            </div>
-          </div>
-          <div class="notification hide"></div>
-        </div>
-      </body>
-    </html>
-"""
+# What does the * do?
+func template_encrypt*(): string = 
+  return niml:
+    doctype_html
+    html:
+      head lang & "en":
+        head:
+          @metadata "Karasu#"
+        body:
+          divider id & "app":
+            @navbar "navbar"
+            divider class & "page":
+              divider class & "grid-container grid-1-2-2-v":
+                @keySelector "for key:"
+                @actionBox "encrypt-box", "Encrypt //", "paste or type the text you want to encrypt here"
+                @actionBox "copy-box", "Copy []", "your encrypted string will appear here"
