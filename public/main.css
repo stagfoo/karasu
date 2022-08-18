@@ -33,6 +33,7 @@ body {
   padding-top: 16px;
   padding-left: 16px;
   padding-right: 16px;
+  height: 100vh;
 }
 
 button {
@@ -136,6 +137,11 @@ input {
   background: #000;
   margin-bottom: 16px;
 }
+textarea:focus,
+input:focus {
+  border: 0;
+}
+
 input {
   padding: 8px;
 }
@@ -144,7 +150,7 @@ textarea {
   resize: none;
   padding-top: 8px;
   padding-bottom: 8px;
-  height: 40vh;
+  height: 90%;
 }
 
 .input input {
@@ -207,7 +213,7 @@ select {
 .grid-1-2-2-v {
   grid-template-rows: 1fr 6fr 6fr;
   gap: 16px;
-  height: 85vh;
+  height: 89vh;
 }
 .grid-1-2-h {
   grid-template-columns: 1fr 2fr;
@@ -314,7 +320,19 @@ select {
   border: 0px;
 }
 
-
 .padding-0 {
   padding: 0;
+}
+
+button {
+  padding: 8px 16px;
+  margin: 0;
+  background: var(--color-amber-2);
+  border: 0px;
+}
+.action.box button {
+  bottom: 0px;
+  right: 0px;
+  border: 0px;
+  position: absolute;
 }
