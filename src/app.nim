@@ -1,40 +1,80 @@
+import htmlgen
 import jester
 
-var settings = newSettings()
-settings.staticDir = "./public"
+import views/encrypt
+import views/decrypt
+import views/keys
+# Learn show to set ENV
 
+type
+  NewKeyringKey = object
+    id: string
+    name: string
+    shortname: string
+    email: string
+    passphrase: string
+    private: string
+    public: string
 
+type
+  KeyringKey = object
+    id: string
+    name: string
+    shortname: string
+    email: string
+    private: string
+    public: string
+
+let keyringKeys = [
+  KeyringKey(name: "alex", id: "x1", shortname: "alex", email: "yo@stagfoo.com"),
+  KeyringKey(name: "maki", id: "x2", shortname: "maki", email: "maki@stagfoo.com"),
+]
+
+settings:
+  port        = Port(5040)
+  staticDir = "./public"
 
 const AFTER_CLICK = """
   <p>Foobar</p>
 """
 
-const APP_PAGE = """
-  <html>
-    <head>
-    <title>Hello</title>
-    <script src="https://unpkg.com/htmx.org@1.6.0" ></script>
-    </head>
-    <body>
-      <div id="app">
-        <div id="parent-div">
-          <p>Foo</p>
-        </div>
-        <button 
-            hx-post="/clicked"
-            hx-trigger="click"
-            hx-target="#parent-div"
-            hx-swap="innerHTML"
-        >
-            Click Me!
-        </button>
-      </div>
-    </body>
-  </html>
+const KEY_OPTIONS = """
+ <option>alex</option>
+  <option>alex</option>
+  <option>alex</option>
+  <option>alex</option>
+  <option>alex</option>
+  <option>alex</option>
+  <option>alex</option>
 """
+
+func interactBus(name: string): string = 
+  case name
+  of  "key-select":
+    return KEY_OPTIONS
+  else:
+    return ""
+  # check key for correct return interactions
+
 
 routes:
   get "/":
-    resp APP_PAGE
-  post "/clicked":
-    resp AFTER_CLICK
+    resp template_encrypt()
+  get "/encrypt":
+    resp template_encrypt()
+  get "/decrypt":
+    resp template_decrypt()
+  post "/decrypt/@id":
+    resp template_decrypt()
+  get "/keys":
+    resp template_keys()
+  get "/keys/@id":
+    resp template_keys()
+  delete "/keys/@id":
+    resp template_keys()
+  get "/keys/create":
+    resp template_key_create()
+  get "/keys/import":
+    resp template_key_create()
+  post "/x/@name":
+    resp interactBus(@"name")
