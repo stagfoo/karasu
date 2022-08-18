@@ -1,0 +1,1 @@
+bin/viewer & bin/app
