@@ -1,5 +1,5 @@
 import libs/webview/webview
 
-var view = newWebview("test", "http://localhost:5000")
+var view = newWebview("#karasu", "http://localhost:5040", 365, 640, Fixed)
 view.show()
 #nim c viewer.nim && ./viewer   
