@@ -1,7 +1,8 @@
 import niml
 import components
 
-# What does the * do?
+# What does the * do in nim?
+# Answer: its means export
 func template_decrypt*(): string = 
   return niml:
     doctype_html
