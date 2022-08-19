@@ -3,10 +3,11 @@
 create an app using nim
 - use nim as much as possible 
 - sequoia-pgp key generation
-- html templates - https://github.com/onionhammer/nim-templates
+- html routing - https://github.com/dom96/jester
 - htmx for reactive programing (https://htmx.org/)
-- webview
-
+- html DSL https://github.com/jakubDoka/niml
+- webview -  New-style Zaitsev's webview wrapper
+- database ? https://github.com/ameerwasi001/TinyNimDB
 
 build webapp
 ```
