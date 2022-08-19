@@ -1,29 +1,42 @@
-# nim-playing
+<p align="center"><img width="300px" src="/bin/icon-dark.png" />
+</p>
+<p align="center">a simple app to encrypt and descrypt message for transfering over unsecure messaging apps</p>
+<hr>
 
-create an app using nim
-- use nim as much as possible 
+# what would you do such a thing?
+- use nim as much as possible
+- make using pgp encryption easy and nice
+- learn htmx
+- learn nim
+- test alternative to electron 
+
+
+## Libraries
 - sequoia-pgp key generation
-- html routing - https://github.com/dom96/jester
-- htmx for reactive programing (https://htmx.org/)
+- web routes routing - https://github.com/dom96/jester
+- htmx for reactive programing over HTTP (https://htmx.org/)
 - html DSL https://github.com/jakubDoka/niml
-- webview -  New-style Zaitsev's webview wrapper
-- database ? https://github.com/ameerwasi001/TinyNimDB
+- webview -  New-style Zaitsev's webview wrapper (nimble seems broken so just included in `src/libs`
+- database (https://github.com/ameerwasi001/TinyNimDB)
 
-build webapp
+## build server
 ```
 nim c -o:bin/app src/app.nim
 ```
 
-build webview wrapper
+## build webview wrapper around server
 ```
 nim c -o:bin/viewer src/viewer.nim
 ```
 
-# Design 
+# Design
 
 https://www.figma.com/file/CWDTl87o4mTwwVq0ANuy0C/karasu?node-id=0%3A1
 
-## htmx example
+## HTMX notes
+
+how to get data sent in the request
+https://htmx.org/docs/#parameters
 
 ```
 <div id="parent-div">
@@ -39,10 +52,6 @@ https://www.figma.com/file/CWDTl87o4mTwwVq0ANuy0C/karasu?node-id=0%3A1
         </button>
 ```        
 
-## HTMX
-
-how to get data sent in the request
-https://htmx.org/docs/#parameters
 
 
 
