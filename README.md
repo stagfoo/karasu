@@ -1,4 +1,4 @@
-<p align="center"><img width="300px" src="/bin/icon-dark.png" />
+<p align="center"><img width="250px" src="/bin/icon-dark.png" />
 </p>
 <p align="center">a simple app to encrypt and descrypt message for transfering over unsecure messaging apps</p>
 <hr>
