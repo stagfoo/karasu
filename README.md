@@ -2,8 +2,11 @@
 
 create an app using nim
 - use nim as much as possible 
+- sequoia-pgp key generation
+- html templates - https://github.com/onionhammer/nim-templates
 - htmx for reactive programing (https://htmx.org/)
-- webview 
+- webview
+
 
 build webapp
 ```
@@ -35,3 +38,8 @@ nim c -o:bin/viewer src/viewer.nim
             Click Me!
         </button>
 ```        
+
+## HTMX
+
+how to get data sent in the request
+https://htmx.org/docs/#parameters

@@ -12,9 +12,9 @@ func template_decrypt*(): string =
         body:
           divider id & "app":
             #TODO pass active route
-            @navbar "navbar"
+            @navbar "navbar", "decrypt"
             divider class & "page":
               divider class & "grid-container grid-1-2-2-v":
                 @keySelector "for key:"
-                @actionBox "decrypt-box", "Decrypt ??", "paste the encrypted string here"
-                @actionBox "copy-box", "Copy []", "your decrypted string will appear here"
+                @actionBox "encrypt-box", "Encrypt //", "copy-box", "paste or type the text you want to encrypt here"
+                @actionBox "copy-box", "Copy []", "copy-box", "your encrypted string will appear here"
