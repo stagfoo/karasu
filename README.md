@@ -12,7 +12,7 @@
 
 
 ## Libraries
-- sequoia-pgp key generation
+- sequoia-pgp key generation (https://github.com/ba0f3/sequoia.nim)
 - web routes routing - https://github.com/dom96/jester
 - htmx for reactive programing over HTTP (https://htmx.org/)
 - html DSL https://github.com/jakubDoka/niml
