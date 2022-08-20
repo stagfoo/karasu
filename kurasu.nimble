@@ -1,7 +1,7 @@
 # Package
 
 version       = "0.1.0"
-author        = "Basal: Alex King"
+author        = "Stagfoo: Alex King"
 description   = "a pgp encryption app"
 license       = "MIT"
 srcDir        = "src"
