@@ -1,9 +1,10 @@
 import niml
 import components
+import ../types
 
 # What does the * do in nim?
 # Answer: its means export
-func template_decrypt*(): string = 
+func template_decrypt*(keylist: array[0..8, KeyringKey]): string = 
   return niml:
     doctype_html
     html:
@@ -15,7 +16,8 @@ func template_decrypt*(): string =
             #TODO pass active route
             @navbar "navbar", "decrypt"
             divider class & "page":
-              divider class & "grid-container grid-1-2-2-v":
-                @keySelector "for key:"
-                @actionBox "encrypt-box", "Encrypt //", "copy-box", "paste or type the text you want to encrypt here"
-                @actionBox "copy-box", "Copy []", "copy-box", "your encrypted string will appear here"
+              form `hx-post` & "decrypt", `hx-target` & "#copy-box", `hx-swap` & "outerHTML":
+                divider class & "grid-container grid-1-2-2-v":
+                  @keySelector "Decrypt for key:", keylist
+                  @actionBox "decrypt-box", "decrypt //", "copy-box", "decrypt", ""
+                  @actionBox "copy-box", "Copy []", "copy-box", "your encrypted string will appear here", ""

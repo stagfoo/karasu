@@ -52,7 +52,7 @@ h4 {
 
 .box {
   padding: 16px;
-  border: 2px solid var(--color-amber-2);
+  border: 1px solid var(--color-amber-2);
   position: relative;
   box-sizing: border-box;
 }
@@ -77,7 +77,7 @@ h4 {
   overflow: scroll;
   border: 0;
   padding: 0;
-  border: 2px solid var(--color-amber-2);
+  border: 1px solid var(--color-amber-2);
 }
 
 .box.item {
@@ -104,7 +104,7 @@ h4 {
   text-align: center;
   background-color: #000;
   color: #fff;
-  border-left: 2px solid var(--color-amber-2);
+  border-left: 1px solid var(--color-amber-2);
 }
 
 .box.item.selected span {
@@ -115,7 +115,7 @@ h4 {
   color: #000;
 }
 .box.item:last-child {
-  border-bottom: 2px solid var(--color-amber-2);
+  border-bottom: 1px solid var(--color-amber-2);
 }
 
 .bottom-list-button {
@@ -141,7 +141,7 @@ input {
   box-sizing: border-box;
   width: 100%;
   min-height: 40px;
-  border: 2px solid var(--color-amber-2);
+  border: 1px solid var(--color-amber-2);
   background: #000;
   margin-bottom: 16px;
 }
@@ -167,18 +167,18 @@ textarea {
 
 .input {
   color: inherit;
-  border: 2px solid;
+  border: 1px solid;
   line-height: 45px;
   height: 45px;
   border-bottom: 0px;
   overflow: hidden;
 }
 .input:last-child {
-  border-bottom: 2px solid;
+  border-bottom: 1px solid;
 }
 
 .input label {
-  border-right: 2px solid;
+  border-right: 1px solid;
   height: 45px;
   box-sizing: border-box;
   padding: 8px;
@@ -205,16 +205,25 @@ select {
   box-sizing: border-box;
   display: inline-grid;
   gap: 24px;
+  transition: 0.3s ease all;
 }
 .grid-1-2-2-h {
   grid-template-columns: 1fr 2fr 2fr;
   height: 80vh;
 }
-.grid-1-1-1-h {
-  grid-template-columns: 1fr 1fr 1fr;
-  height: 80vh;
+.grid-1-1-h {
+  gap: 8px;
+  grid-template-columns: 1fr 1fr;
+  transition: 0.3s ease all;
 }
-
+.grid-1-h {
+  grid-template-columns: 1fr;
+  transition: 0.3s ease all;
+}
+.grid-1-1-v {
+  grid-template-rows: 1fr 1fr;
+  gap: 8px;
+}
 .grid-1-1-1-v {
   grid-template-rows: 1fr 1fr 1fr;
 }
@@ -242,14 +251,14 @@ select {
 .nav .active {
   background: var(--color-amber-2);
   color: #000;
-  border-bottom: 2px solid var(--color-amber-2);
+  border-bottom: 1px solid var(--color-amber-2);
 }
 .nav a {
   background: #000;
   color: var(--color-amber-2);
   border: 0;
-  border-bottom: 2px solid;
-  border-bottom: 2px solid;
+  border-bottom: 1px solid;
+  border-bottom: 1px solid;
   box-sizing: border-box;
   font-size: 18px;
   padding: 16px;
@@ -258,10 +267,10 @@ select {
 }
 
 .nav a:first-child {
-  border-right: 2px solid var(--color-amber-2);
+  border-right: 1px solid var(--color-amber-2);
 }
 .nav a:last-child {
-  border-left: 2px solid var(--color-amber-2);
+  border-left: 1px solid var(--color-amber-2);
 }
 .nav .disabled {
   text-decoration: line-through;
@@ -321,7 +330,7 @@ select {
   height: 40px;
   width: 100%;
   display: inline-block;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .borderless {
@@ -332,15 +341,75 @@ select {
   padding: 0;
 }
 
+.recipients-list .button {
+  background: transparent;
+  color: var(--color-amber-2);
+  text-align: center;
+}
+
+.button,
 button {
-  padding: 8px 16px;
+  padding: 16px;
+  text-align: center;
   margin: 0;
   background: var(--color-amber-2);
   border: 0px;
+  line-height: 18px;
+  color: #000;
+  font-weight: 400;
+  font-size: 14px;
+  text-decoration: none;
+  transition: 1s ease-in-out all;
+  box-sizing: border-box;
 }
+#actions,
+.key-list-actions {
+  margin-bottom: 16px;
+  margin-top: 16px;
+  width: 100%;
+}
+
+#actions .button,
+#actions button {
+  width: 48.5%;
+  display: inline-block;
+}
+#actions button:last-child{
+  margin: 0;
+  float:right;
+}
+
+.key-list-actions a {
+  background-color: #000;
+  color: var(--color-amber-2);
+  border: 1px solid;
+}
+/* .key-list-actions a:last-child {
+  border-left: 0px;
+} */
+
+.button.secondary {
+  background-color: #000;
+  color: var(--color-amber-2);
+  border: 1px dashed;
+}
+
+.action.box .button,
 .action.box button {
   bottom: 0px;
   right: 0px;
   border: 0px;
   position: absolute;
+}
+.action.box form {
+  height: 100%;
+}
+
+
+
+/* Animations */
+
+.expand-w {
+  transition: 1s ease-in-out all;
+  width: 100% !important;
 }

@@ -1,5 +1,5 @@
 import niml
-
+import ../types
 
 func metadata*(title: string): string =
   return niml:
@@ -11,94 +11,137 @@ func metadata*(title: string): string =
         link rel & "stylesheet", href & "/main.css"
         link rel & "stylesheet", href & "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@100;200;500&amp;display=swap"
         title @title
+        script:
+          """
+            function copyToClipBoard() {
+            var content = document.getElementById('copy-box');
+            content.select();
+            document.execCommand('copy');
+            alert("Successfully Copied!");
+            }
+          """
 
 func navbar*(id:string, active:string): string =
-  # wtf is this shit lol
-  case active
-  of "keys":
-    return niml:
-            divider id & @id, class & "nav grid-container":
-              a href & "/", class & "":
-                "encrypt"
-              a href & "/decrypt", class & "":
-                "decrypt"
-              a href & "/keys", class & "active":
-                "keys"
-  of "decrypt":
-    return niml:
-            divider id & @id, class & "nav grid-container":
-              a href & "/", class & "":
-                "encrypt"
-              a href & "/decrypt", class & "active":
-                "decrypt"
-              a href & "/keys", class & "":
-                "keys"
-  else:
-    return niml:
-            divider id & @id, class & "nav grid-container":
-              a href & "/", class & "active":
-                "encrypt"
-              a href & "/decrypt", class & "":
-                "decrypt"
-              a href & "/keys", class & "":
-                "keys"
-
-
-func keySelector*(title:string): string =
   return niml:
-        divider class & "recipients-selector box thin filled grid-container grid-1-2-h":
-          span class & "title":
-            @title
-          select:
-            option:
-                "alex"
-            option:
-                "alex"
-            option:
-                "alex"
-            option:
-                "alex"
-func actionBox*(id: string, text: string, target: string , placeholder: string): string =
+          divider id & @id, class & "nav grid-container":
+            a href & "/", class & @(if active == "encrypt": "active" else: ""):
+              "encrypt"
+            a href & "/decrypt", class & @(if active == "decrypt": "active" else: ""):
+              "decrypt"
+            a href & "/keys", class & @(if active == "keys": "active" else: ""):
+              "keys"     
+        
+func actionBox*(id: string, text: string, target: string , placeholder: string, value: string): string =
   return niml:
-    divider id & @id, class & "action box" :
-        textarea class & "borderless htmx-include", placeholder & @placeholder
-        button class & "primary", `hx-swap` & "outerHTML", `hx-target` & @("#" & target), `hx-post` & @("/ux/encrypt/" & id), `hx-trigger` & "click":
-         @text
+      divider id & @id, class & "action box" :
+            textarea name & @id, class & "borderless htmx-include", placeholder & @placeholder:
+              @value
+            button class & "primary", type & "submit":
+              @text
 
-func keyItem*(name: string, selected:string): string =
+func copyBox*(id: string, text: string, target: string , placeholder: string, value: string): string =
   return niml:
-      button class & @("box item key " & selected):
+      divider id & @id, class & "action box" :
+          form `hx-post` & "encrypt", `hx-target` & @("#" & target), `hx-swap` & "outerHTML":
+            textarea name & @id, class & "borderless htmx-include", placeholder & @placeholder:
+              @value
+            button class & "primary", onclick & "":
+              @text
+
+func keyItem*(name: string, selectedKeyId:string): string =
+  var selectedClass = (if selectedKeyId == name: "selected" else: "")
+  return niml:
+      button class & @("box item key " & selectedClass), `hx-trigger` & "click", `hx-target` & "#key-list", `hx-get` & @("/x/key-select/" & name),  `hx-swap` & "outerHTML":
         span:
           @name
         i class & "pair":
           "PP"
 
-func keylist*(buttonText: string): string =
-  return niml:
-        divider class & "box recipients-list":
-          button class & "":
-            @buttonText
-          @keyItem "alex", "selected"
-          @keyItem "maki", ""
-          @keyItem "lia", ""
-          @keyItem "adam", ""
-          @keyItem "luke", ""
-          @keyItem "marty", ""
-
-func keyInfoInput*(label: string, value: string): string =
-  return niml:
+func keyInfoInput*(label: string, value: string, disabled:bool): string =
+  if disabled:
+    return niml:
+        divider class & "input grid-container grid-1-3-h":
+          label:
+            @label
+          input name & @label, class & @("htmx-include input-" & label), type & "text", value & @value, disabled & "true"
+  else:
+    return niml:
           divider class & "input grid-container grid-1-3-h":
             label:
               @label
-            input class & @("input-" & label), type & "text", value & @value
+            input name & @label, class & @("htmx-include input-" & label), type & "text", value & @value
 
 func keyInfo*(title: string): string =
   return niml:
-    divider class & "box borderless padding-0":
-      p:
+      divider class & "box borderless padding-0":
+        p:
+          @title
+        @keyInfoInput "name", "alex", false
+        @keyInfoInput "email", "alex@email.com", false
+        @keyInfoInput "crypto", "SHA265", false
+        @keyInfoInput "added", "alex", false
+        @keyInfoInput "type", "alex", false
+
+func createKeyInfo*(title: string): string =
+  return niml:
+    form `hx-post` & "/x/key-created", `hx-target` & "#actions":
+      divider class & "box borderless padding-0":
+        p:
+          @title
+        @keyInfoInput "name", "alex", false
+        @keyInfoInput "email", "alex@email.com", false
+        @keyInfoInput "crypto", "SHA265", true
+        @keyInfoInput "added", "alex", false
+        @keyInfoInput "type", "alex", false
+      divider id & "actions":
+          a class & "button secondary", href & "/keys":
+            "Cancel"
+          button class & "button primary", type & "submit":
+            "Create key pair **"
+
+func importKeyInfo*(title: string): string =
+  return niml:
+    form `hx-post` & "/x/key-imported", `hx-target` & "#actions":
+      #copy this for create as well
+      divider class & "grid-container grid-1-2-2-v":
+        p:
+          @title
+        divider id & "public-key", class & "action box" :
+              textarea name & "public-key", class & "borderless htmx-include", placeholder & "paste your public key"
+        divider id & "private-key", class & "action box" :
+              textarea name & "private-key", class & "borderless htmx-include", placeholder & "paste your private key"
+        divider id & "actions":
+          a class & "button secondary", href & "/keys":
+            "Cancel X"
+          button class & "button primary", type & "submit" :
+            "Import Key/s <<"
+
+
+func optionList(keylist: array[0..8, KeyringKey]): string =
+  # I would like to do this as a niml but niml are string so this works ┐( ´3` )┌
+  var options = ""
+  for i, item in keylist:
+    options = options & "<option>" & item.name & "(" & item.email &  ")" & "    [P]</option>"
+  return options
+
+func keyItemList(keylist: array[0..8, KeyringKey], selectedKeyId: string): string =
+  # I would like to do this as a niml but niml are string so this works ┐( ´3` )┌
+  var list = ""
+  for i, item in keylist:
+    list = list & keyItem(item.name, selectedKeyId)
+  return list
+
+func keySelector*(title:string, keylist: array[0..8, KeyringKey]): string =
+  return niml:
+    divider class & "recipients-selector box thin filled grid-container grid-1-2-h hx-include":
+      span class & "title":
         @title
-      @keyInfoInput "name", "alex"
-      @keyInfoInput "email", "alex@email.com"
-      @keyInfoInput "crypto", "SHA265"
-      @keyInfoInput "added", "alex"
-      @keyInfoInput "type", "alex"
+      select name & "selectkey":
+        @optionList keylist
+
+# possible remove this element?
+func allKeylist*(selectedKey: string, keylist: array[0..8, KeyringKey]): string =
+  return niml:
+        divider id & "key-list", class & "box ghost":
+          @keySelector "Info for key:", keylist
+          # rethink how to do this selec logic 
