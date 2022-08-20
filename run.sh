@@ -1,1 +1,1 @@
-bin/viewer & bin/app
+bin/viewer & bin/kurasu
