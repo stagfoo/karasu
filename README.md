@@ -5,7 +5,7 @@
 
 # why would you do such a thing?
 - use nim as much as possible
-- make using pgp encryption easy and nice
+- make using ~~pgp~~ encryption easy and nice
 - learn htmx or "go back to monke"
 - learn nim
 - test alternative to electron 
