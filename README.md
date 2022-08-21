@@ -63,3 +63,4 @@ selecting a key in a list worked but the scroll position of the list would be re
 - AES and XXTEA both have nim packages https://github.com/jangko/nimAES https://github.com/xxtea/xxtea-nim#xxtea-for-nim
 - https://github.com/OHermesJunior/nimRC4
 - AES has been approved by the NSA(us) for top secret docs and is used by keypass
+- AES doesnt support keypairs :(
