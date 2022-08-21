@@ -1,6 +1,13 @@
 import jester
 import logging
 import niml
+# Crypto imports
+import nimAES
+import murmurhash
+import flatdb
+import std/json
+import std/os
+import std/base64
 
 # My imports (´▽`)
 import views/encrypt
@@ -9,8 +16,12 @@ import views/keys
 import views/components
 import types
 import data/database
+import domain
 
-
+# AES setup
+var aesServer = initAES()
+var db* = flatdb.newFlatDb("keydatabase.db", false)
+discard db.load()
 
 settings:
   port        = Port(5040)
@@ -35,7 +46,7 @@ routes:
     echo "key selected: " & @"name"
     resp allKeylist(@"name", keyringKeys)
   post "/x/key-created":
-    # check grid-container - doesnt animate well
+    db.append(%* {"name": @"name", "email": @"email", "public": generateKey(@"passp"), "private": ""})
     var body = niml:
       divider id & "actions":
         a class & "button primary expand-w", href & "/keys":
