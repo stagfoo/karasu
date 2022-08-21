@@ -18,7 +18,7 @@
 - HTMX for reactive programing over HTTP (https://htmx.org/)
 - HTML DSL https://github.com/jakubDoka/niml
 - webview -  New-style Zaitsev's webview wrapper (nimble seems broken so just included in `src/libs`
-- database (https://github.com/ameerwasi001/TinyNimDB)
+- database - flatdb (will get url later)
 
 ## build app
 ```
