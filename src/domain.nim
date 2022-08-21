@@ -1,8 +1,8 @@
-import nimpy
+import nimAES
+import murmurhash
+import strutils
 
-# doesnt work
-let pgpy = pyImport("PGPy")
-let py = pyBuiltinsModule()
-var key = pgpy.PGPKey.new(pgpy.PubKeyAlgorithm.RSAEncryptOrSign, 4096)
-
-echo key
+# hashed password
+func generateKey*(passphrase: string): string =
+    let hashArray = MurmurHash3_x64_128(passphrase)
+    return $hashArray[0] & $hashArray[1]

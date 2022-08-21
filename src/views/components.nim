@@ -76,11 +76,11 @@ func keyInfo*(title: string): string =
       divider class & "box borderless padding-0":
         p:
           @title
-        @keyInfoInput "name", "alex", false
-        @keyInfoInput "email", "alex@email.com", false
-        @keyInfoInput "crypto", "SHA265", false
-        @keyInfoInput "added", "alex", false
-        @keyInfoInput "type", "alex", false
+        @keyInfoInput "name", "alex", true
+        @keyInfoInput "email", "alex@email.com", true
+        @keyInfoInput "crypto", "SHA265", true
+        @keyInfoInput "passphrase", "alex", true
+        @keyInfoInput "type", "Single Key", true
 
 func createKeyInfo*(title: string): string =
   return niml:
@@ -90,9 +90,10 @@ func createKeyInfo*(title: string): string =
           @title
         @keyInfoInput "name", "alex", false
         @keyInfoInput "email", "alex@email.com", false
-        @keyInfoInput "crypto", "SHA265", true
-        @keyInfoInput "added", "alex", false
-        @keyInfoInput "type", "alex", false
+        @keyInfoInput "encrypt", "AES", true
+        @keyInfoInput "passp", "example-password", false
+        @keyInfoInput "type", "Single Key", false
+
       divider id & "actions":
           a class & "button secondary", href & "/keys":
             "Cancel"
