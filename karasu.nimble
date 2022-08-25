@@ -2,10 +2,10 @@
 
 version       = "0.1.0"
 author        = "Stagfoo: Alex King"
-description   = "a pgp encryption app"
+description   = "a simple app to encrypt and descrypt message for transfering over unsecure messaging apps"
 license       = "MIT"
 srcDir        = "src"
-bin           = @["kurasu"]
+bin           = @["karasu"]
 
 
 # Dependencies
