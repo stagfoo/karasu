@@ -5,11 +5,18 @@
 
 # why would you do such a thing?
 - use nim as much as possible
-- make using ~~pgp~~ encryption easy and nice
+- make using pgp encryption easy and nice
 - learn htmx or "go back to monke"
 - learn nim
 - test alternative to electron 
 
+
+
+## Nim Experience
+- build process is great
+- nimble is great
+- very little libraries
+- a lot of broken libraries
 
 ## Libraries
 - ~~sequoia-pgp key generation (https://github.com/ba0f3/sequoia.nim)~~
