@@ -32,23 +32,4 @@ https://www.figma.com/file/CWDTl87o4mTwwVq0ANuy0C/karasu?node-id=0%3A1
 
 - some screen may differ after creation
 
-## HTMX notes
 
-how to get data sent in the request
-https://htmx.org/docs/#parameters
-
-```
-<div id="parent-div">
-          <p>Foo</p>
-        </div>
-        <button 
-            hx-post="/clicked"
-            hx-trigger="click"
-            hx-target="#parent-div"
-            hx-swap="innerHTML"
-        >
-            Click Me!
-        </button>
-```        
-### HTMX problem
-selecting a key in a list worked but the scroll position of the list would be reset, if you reloaded the full list but if you didn't reload the full list other key items would not be unselected
