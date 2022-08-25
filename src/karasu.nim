@@ -2,7 +2,6 @@ import jester
 import logging
 import niml
 # Crypto imports
-import nimAES
 import murmurhash
 import flatdb
 import std/json
@@ -19,7 +18,6 @@ import data/database
 import domain
 
 # AES setup
-var aesServer = initAES()
 var db* = flatdb.newFlatDb("keydatabase.db", false)
 discard db.load()
 

@@ -1,4 +1,3 @@
-import nimAES
 import murmurhash
 import strutils
 

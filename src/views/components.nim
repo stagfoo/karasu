@@ -7,6 +7,7 @@ func metadata*(title: string): string =
         meta `http-equiv` & "X-UA-Compatible", content & "IE=edge"
         meta name & "viewport", content & "width=device-width, initial-scale=1.0"
         script src & "/htmx.js"
+
         link rel & "stylesheet", href & "/reasonable-colors.css"
         link rel & "stylesheet", href & "/main.css"
         link rel & "stylesheet", href & "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@100;200;500&amp;display=swap"
@@ -19,6 +20,29 @@ func metadata*(title: string): string =
             document.execCommand('copy');
             alert("Successfully Copied!");
             }
+          """
+        script src & "https://unpkg.com/openpgp@5.4.0/dist/openpgp.js"
+        script:
+          """
+            (async () => {
+                const message = await openpgp.createMessage({ binary: new Uint8Array([0x01, 0x01, 0x01]) });
+                const encrypted = await openpgp.encrypt({
+                    message, // input as Message object
+                    passwords: ['secret stuff'], // multiple passwords possible
+                    format: 'binary' // don't ASCII armor (for Uint8Array output)
+                });
+                console.log(encrypted); // Uint8Array
+
+                const encryptedMessage = await openpgp.readMessage({
+                    binaryMessage: encrypted // parse encrypted bytes
+                });
+                const { data: decrypted } = await openpgp.decrypt({
+                    message: encryptedMessage,
+                    passwords: ['secret stuff'], // decrypt with password
+                    format: 'binary' // output as Uint8Array
+                });
+                console.log(decrypted); // Uint8Array([0x01, 0x01, 0x01])
+            })();
           """
 
 func navbar*(id:string, active:string): string =
