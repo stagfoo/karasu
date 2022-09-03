@@ -31,7 +31,9 @@ routes:
   get "/encrypt":
     resp template_encrypt(keyringKeys)
   get "/decrypt":
-    resp template_decrypt(keyringKeys)    
+    resp template_decrypt(keyringKeys)
+  get "/x/keys/@name":
+    # Get RSA Files
   get "/keys":
     resp template_keys(keyringKeys, selectedKeyId)
   get "/keys/new":
