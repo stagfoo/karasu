@@ -88,7 +88,7 @@ func keyInfo*(title: string): string =
 
 func createKeyInfo*(title: string): string =
   return niml:
-    form `hx-post` & "/x/key-created", `hx-target` & "#actions":
+    form id & "key-created", `hx-post` & "/x/key-created", `hx-target` & "#actions":
       divider class & "box borderless padding-0":
         p:
           @title
@@ -96,13 +96,21 @@ func createKeyInfo*(title: string): string =
         @keyInfoInput "email", "alex@email.com", false
         @keyInfoInput "encrypt", "AES", true
         @keyInfoInput "passp", "example-password", false
-        @keyInfoInput "type", "Single Key", false
+        @keyInfoInput "type", "Pair Key", false
 
       divider id & "actions":
           a class & "button secondary", href & "/keys":
             "Cancel"
-          button class & "button primary", type & "submit":
+          button id & "key-created-button", class & "button primary", type & "click":
             "Create key pair **"
+    script:
+      """
+        document.getElementById('key-created-button').addEventListener("click", () => {
+          const form = document.querySelector('#key-created');
+          const data = Object.fromEntries(new FormData(form).entries());
+          handleCreateNewKey(data.passp, data.name, data.email)
+        })
+      """ 
 
 func importKeyInfo*(title: string): string =
   return niml:

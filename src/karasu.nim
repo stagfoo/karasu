@@ -34,6 +34,7 @@ routes:
     resp template_decrypt(keyringKeys)
   get "/x/keys/@name":
     # Get RSA Files
+    resp ""
   get "/keys":
     resp template_keys(keyringKeys, selectedKeyId)
   get "/keys/new":
@@ -45,8 +46,11 @@ routes:
   get "/x/key-select/@name":
     echo "key selected: " & @"name"
     resp allKeylist(@"name", keyringKeys)
+  post "/json/key-created":
+    var newKey = parseJson(request.body)
+    db.append(%* {"name": newKey["name"].getStr(), "email": newKey["email"].getStr(), "public": newKey["public"].getStr() , "private": newKey["private"].getStr()})
+    resp "sucecess"
   post "/x/key-created":
-    db.append(%* {"name": @"name", "email": @"email", "public": generateKey(@"passp"), "private": ""})
     var body = niml:
       divider id & "actions":
         a class & "button primary expand-w", href & "/keys":

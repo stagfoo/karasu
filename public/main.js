@@ -37,16 +37,40 @@ async function decryptMessage(armoredKeyPrivateKey, passphrase, armoredMessage) 
   });
 }
 
-(async () => {
+async function saveKeys(key) {
+  const response = await fetch('/json/key-created', {
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', 
+    cache: 'no-cache', 
+    credentials: 'same-origin', 
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    referrerPolicy: 'no-referrer', 
+    body: JSON.stringify(key)
+  });
+  return response.json();
+}
+
+async function testingFunction() {
   const passphrase = "king"
-  // const { 
-  //   armoredKeyPrivateKey,
-  //   armoredKeyPublicKey
-  // } = await createNewKey('Alex', 'yo@stagfoo.com', passphrase);
-  // localStorage.setItem('armoredKeyPrivateKey', armoredKeyPrivateKey)
-  // localStorage.setItem('armoredKeyPublicKey', armoredKeyPublicKey)
-  const armoredKeyPrivateKey = localStorage.getItem('armoredKeyPrivateKey')
-  const armoredKeyPublicKey = localStorage.getItem('armoredKeyPublicKey')
+  const { 
+    armoredKeyPrivateKey,
+    armoredKeyPublicKey
+  } = await createNewKey('Alex', 'example@stagfoo.com', passphrase);
+
+  localStorage.setItem('armoredKeyPrivateKey', armoredKeyPrivateKey)
+  localStorage.setItem('armoredKeyPublicKey', armoredKeyPublicKey)
+
+  await saveKeys({
+    name: "Alex",
+    email: "example@stagfoo.com",
+    private:armoredKeyPrivateKey,
+    public: armoredKeyPublicKey
+  })
+
+  // const armoredKeyPrivateKey = localStorage.getItem('armoredKeyPrivateKey')
+  // const armoredKeyPublicKey = localStorage.getItem('armoredKeyPublicKey')
 
   const armoredMessage = await encryptMessage(armoredKeyPublicKey, "Hello World");
   
@@ -54,10 +78,18 @@ async function decryptMessage(armoredKeyPrivateKey, passphrase, armoredMessage) 
   const { data: decrypted } = await decryptMessage(armoredKeyPrivateKey, passphrase, armoredMessage)
 
   console.log(decrypted); // 'Hello, World!'
-})();
-// const { data: decrypted } = await openpgp.decrypt({
-//   message: encryptedMessage,
-//   passwords: ['secret stuff'], // decrypt with password
-//   format: 'binary' // output as Uint8Array
-// });
-// console.log('decrypted', decrypted); // Uint8Array([0x01, 0x01, 0x01])
+}
+
+async function handleCreateNewKey(passphrase, name, email){
+  const { 
+    armoredKeyPrivateKey,
+    armoredKeyPublicKey
+  } = await createNewKey(name, email, passphrase);
+
+  return await saveKeys({
+    name,
+    email,
+    private:armoredKeyPrivateKey,
+    public: armoredKeyPublicKey
+  })
+}
