@@ -52,6 +52,20 @@ async function saveKeys(key) {
   return response.json();
 }
 
+async function getKeys(keyId) {
+  const response = await fetch(`/x/keys/${keyId}`, {
+    method: 'GET',
+    mode: 'cors', 
+    cache: 'no-cache', 
+    credentials: 'same-origin', 
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    referrerPolicy: 'no-referrer', 
+  });
+  return response.json();
+}
+
 async function testingFunction() {
   const passphrase = "king"
   const { 
@@ -92,4 +106,18 @@ async function handleCreateNewKey(passphrase, name, email){
     private:armoredKeyPrivateKey,
     public: armoredKeyPublicKey
   })
+}
+
+async function handleEncryptMessage(armoredKeyPublicKey, message){
+  return await encryptMessage(armoredKeyPublicKey, message);
+}
+
+async function handleDecryptMessage(armoredKeyPrivateKey, passphrase, armoredMessage) {
+  const { data: decrypted } = await decryptMessage(armoredKeyPrivateKey, passphrase, armoredMessage)
+  return decrypted;
+}
+
+async function onchangeKeySelector(e){
+  console.log(e)
+  await getKeys(e.target.value)
 }

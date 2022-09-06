@@ -1,9 +1,11 @@
 import niml
 import components
-import ../types
+import jsony
+import std/json
+
 # What does the * do in nim?
 # Answer: its means export
-func template_encrypt*(keylist: array[0..8, KeyringKey]): string = 
+func template_encrypt*(keylist: seq[JsonNode]): string = 
   return niml:
     doctype_html
     html:

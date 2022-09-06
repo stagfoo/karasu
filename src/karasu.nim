@@ -1,6 +1,7 @@
 import jester
 import logging
 import niml
+import jsony
 # Crypto imports
 import murmurhash
 import flatdb
@@ -17,6 +18,15 @@ import types
 import data/database
 import domain
 
+type
+  KeyringKey = object
+    name: string 
+    id: string
+    email: string
+    public: string
+    private: string
+
+
 # AES setup
 var db* = flatdb.newFlatDb("keydatabase.db", false)
 discard db.load()
@@ -27,16 +37,21 @@ settings:
 
 routes:
   get "/":
-    resp template_encrypt(keyringKeys)
+    var keys = db.query(has("name"))
+    resp template_encrypt(keys)
   get "/encrypt":
-    resp template_encrypt(keyringKeys)
+    var keys = db.query(has("name"))
+    resp template_encrypt(keys)
   get "/decrypt":
-    resp template_decrypt(keyringKeys)
-  get "/x/keys/@name":
-    # Get RSA Files
-    resp ""
+    var keys = db.query(has("name"))
+    resp template_decrypt(keys)
+  get "/x/keys/@keyid":
+    resp db[@"keyid"]
   get "/keys":
-    resp template_keys(keyringKeys, selectedKeyId)
+    # I cant find docs on how to return all options?
+    # get all ids that have a name
+    var keys = db.query(has("name"))
+    resp template_keys(keys, selectedKeyId)
   get "/keys/new":
     resp template_key_create()
   get "/keys/import":
@@ -45,11 +60,14 @@ routes:
     resp keyInfo("selected-key")
   get "/x/key-select/@name":
     echo "key selected: " & @"name"
-    resp allKeylist(@"name", keyringKeys)
+    var keys = db.query(has("name"))
+    resp allKeylist(@"name", keys)
   post "/json/key-created":
     var newKey = parseJson(request.body)
     db.append(%* {"name": newKey["name"].getStr(), "email": newKey["email"].getStr(), "public": newKey["public"].getStr() , "private": newKey["private"].getStr()})
-    resp "sucecess"
+    resp """
+      {"done": "true"}
+    """
   post "/x/key-created":
     var body = niml:
       divider id & "actions":

@@ -1,8 +1,9 @@
 import niml
 import components
-import ../types
+import jsony
+import std/json
 
-func template_keys*(keylist: array[0..8, KeyringKey], selectedKeyId: string): string = 
+func template_keys*(keylist: seq[JsonNode], selectedKeyId: string): string = 
   return niml:
     doctype_html
     html:

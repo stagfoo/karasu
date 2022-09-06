@@ -1,5 +1,14 @@
 import niml
-import ../types
+import jsony
+import std/json
+
+type
+  KeyringKey* = object
+    name: string
+    id: string
+    email: string
+    public: string
+    private: string
 
 
 func metadata*(title: string): string =
@@ -130,30 +139,34 @@ func importKeyInfo*(title: string): string =
             "Import Key/s <<"
 
 
-func optionList(keylist: array[0..8, KeyringKey]): string =
+func optionList(keylist: seq[JsonNode]): string =
   # I would like to do this as a niml but niml are string so this works ┐( ´3` )┌
   var options = ""
   for i, item in keylist:
-    options = options & "<option>" & item.name & "(" & item.email &  ")" & "    [P]</option>"
+    var name = item["name"].getStr()
+    var email = item["email"].getStr()
+    var id = item["_id"].getStr()
+    options = options & "<option value='" & id  & "' >" & name & "(" & email &  ")" & "    [P]</option>"
   return options
 
-func keyItemList(keylist: array[0..8, KeyringKey], selectedKeyId: string): string =
+func keyItemList(keylist: seq[JsonNode], selectedKeyId: string): string =
   # I would like to do this as a niml but niml are string so this works ┐( ´3` )┌
   var list = ""
   for i, item in keylist:
-    list = list & keyItem(item.name, selectedKeyId)
+    var name = item["name"].getStr()
+    list = list & keyItem(name, selectedKeyId)
   return list
 
-func keySelector*(title:string, keylist: array[0..8, KeyringKey]): string =
+func keySelector*(title:string, keylist: seq[JsonNode]): string =
   return niml:
     divider class & "recipients-selector box thin filled grid-container grid-1-2-h hx-include":
       span class & "title":
         @title
-      select name & "selectkey":
+      select name & "selectkey", onchange & "onchangeKeySelector(event)":
         @optionList keylist
 
 # possible remove this element?
-func allKeylist*(selectedKey: string, keylist: array[0..8, KeyringKey]): string =
+func allKeylist*(selectedKey: string, keylist: seq[JsonNode]): string =
   return niml:
         divider id & "key-list", class & "box ghost":
           @keySelector "Info for key:", keylist
