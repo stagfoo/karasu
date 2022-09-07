@@ -91,8 +91,7 @@ func keyInfo*(title: string): string =
           @title
         @keyInfoInput "name", "alex", true
         @keyInfoInput "email", "alex@email.com", true
-        @keyInfoInput "crypto", "SHA265", true
-        @keyInfoInput "passphrase", "alex", true
+        @keyInfoInput "crypto", "PGP", true
         @keyInfoInput "type", "Single Key", true
 
 func createKeyInfo*(title: string): string =
@@ -101,11 +100,11 @@ func createKeyInfo*(title: string): string =
       divider class & "box borderless padding-0":
         p:
           @title
-        @keyInfoInput "name", "alex", false
-        @keyInfoInput "email", "alex@email.com", false
-        @keyInfoInput "encrypt", "AES", true
-        @keyInfoInput "passp", "example-password", false
-        @keyInfoInput "type", "Pair Key", false
+        @keyInfoInput "name", "", false
+        @keyInfoInput "email", "", false
+        @keyInfoInput "encrypt", "PGP", true
+        @keyInfoInput "pass", "", false
+        @keyInfoInput "type", "Pair Key", true
 
       divider id & "actions":
           a class & "button secondary", href & "/keys":
@@ -146,7 +145,11 @@ func optionList(keylist: seq[JsonNode]): string =
     var name = item["name"].getStr()
     var email = item["email"].getStr()
     var id = item["_id"].getStr()
-    options = options & "<option value='" & id  & "' >" & name & "(" & email &  ")" & "    [P]</option>"
+    var priv = item["private"].getStr()
+    var keyType = "[P]"
+    if priv.len > 0:
+      keyType = "[PP]"
+    options = options & "<option value='" & id  & "' >" & name & "(" & email &  ") " & keyType & "</option>"
   return options
 
 func keyItemList(keylist: seq[JsonNode], selectedKeyId: string): string =
