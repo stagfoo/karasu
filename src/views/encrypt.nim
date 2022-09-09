@@ -21,3 +21,11 @@ func template_encrypt*(keylist: seq[JsonNode]): string =
                   @keySelector "Encrpyt for key:", keylist
                   @actionBox "encrypt-box", "Encrypt //", "copy-box", "paste or type the text you want to encrypt here", ""
                   @actionBox "copy-box", "Copy []", "copy-box", "your encrypted string will appear here", ""
+              script:
+                """
+                document.querySelector('#encrypt-box button').addEventListener('click', async (e) => {
+                  const data = await handleEncryptMessage(state.selectedKey.public, document.querySelector('#encrypt-box textarea').innerText)
+                  debugger
+                  document.querySelector('#copy-box textarea').innerText = data
+                })
+                """

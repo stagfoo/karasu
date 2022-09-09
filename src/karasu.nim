@@ -29,6 +29,7 @@ type
 
 # AES setup
 var db* = flatdb.newFlatDb("keydatabase.db", false)
+var selectedKey = ""
 discard db.load()
 
 settings:
@@ -46,6 +47,7 @@ routes:
     var keys = db.query(has("name"))
     resp template_decrypt(keys)
   get "/x/keys/@keyid":
+    # maybe not needed?
     resp db[@"keyid"]
   get "/keys":
     # I cant find docs on how to return all options?
@@ -86,10 +88,9 @@ routes:
     resp "key pair created"
   post "/encrypt":
     # database save
-    echo @"selectkey"
-    echo @"encrypt-box"
-    echo @"copy-box"
-    resp copyBox("copy-box", "Copy []", "copy-box", "", fakeTextMessage)
+    var key = @"selectkey"
+    var message = @"encrypt-box"
+    resp copyBox("copy-box", "Copy []", "copy-box", "", "")
   post "/decrypt":
     echo @"selectkey"
     echo @"decrypt-box"

@@ -1,3 +1,7 @@
+var state = {
+  selectedKey: {}
+}
+
 async function createNewKey(name, email, passphrase) {
   const { privateKey, publicKey } = await openpgp.generateKey({
     type: 'rsa', 
@@ -66,33 +70,6 @@ async function getKeys(keyId) {
   return response.json();
 }
 
-async function testingFunction() {
-  const passphrase = "king"
-  const { 
-    armoredKeyPrivateKey,
-    armoredKeyPublicKey
-  } = await createNewKey('Alex', 'example@stagfoo.com', passphrase);
-
-  localStorage.setItem('armoredKeyPrivateKey', armoredKeyPrivateKey)
-  localStorage.setItem('armoredKeyPublicKey', armoredKeyPublicKey)
-
-  await saveKeys({
-    name: "Alex",
-    email: "example@stagfoo.com",
-    private:armoredKeyPrivateKey,
-    public: armoredKeyPublicKey
-  })
-
-  // const armoredKeyPrivateKey = localStorage.getItem('armoredKeyPrivateKey')
-  // const armoredKeyPublicKey = localStorage.getItem('armoredKeyPublicKey')
-
-  const armoredMessage = await encryptMessage(armoredKeyPublicKey, "Hello World");
-  
-  console.log(armoredMessage);
-  const { data: decrypted } = await decryptMessage(armoredKeyPrivateKey, passphrase, armoredMessage)
-
-  console.log(decrypted); // 'Hello, World!'
-}
 
 async function handleCreateNewKey(passphrase, name, email){
   const { 
@@ -118,6 +95,6 @@ async function handleDecryptMessage(armoredKeyPrivateKey, passphrase, armoredMes
 }
 
 async function onchangeKeySelector(e){
-  console.log(e)
-  await getKeys(e.target.value)
+  console.log(e.value)
+  state.selectedKey = await getKeys(e.target.value)
 }

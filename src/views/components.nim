@@ -47,17 +47,16 @@ func navbar*(id:string, active:string): string =
         
 func actionBox*(id: string, text: string, target: string , placeholder: string, value: string): string =
   return niml:
-      divider id & @id, class & "action box" :
-            textarea name & @id, class & "borderless htmx-include", placeholder & @placeholder:
+      divider id & @id, class & "action box borderless" :
+            textarea name & @id, placeholder & @placeholder:
               @value
-            button class & "primary", type & "submit":
+            button class & "primary", type & "button":
               @text
 
 func copyBox*(id: string, text: string, target: string , placeholder: string, value: string): string =
   return niml:
       divider id & @id, class & "action box" :
-          form `hx-post` & "encrypt", `hx-target` & @("#" & target), `hx-swap` & "outerHTML":
-            textarea name & @id, class & "borderless htmx-include", placeholder & @placeholder:
+            textarea name & @id, class & "borderless", placeholder & @placeholder:
               @value
             button class & "primary", onclick & "":
               @text
