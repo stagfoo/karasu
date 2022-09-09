@@ -1,5 +1,5 @@
 # "nim js --out:public/snake.js -d:local snake.nim"
-import dom, jsconsole, sugar
+import dom, jsconsole, sugar, std/asyncjs
 
 # create type for global function (examples below)
 #proc createElementNS*(d: Document, namespace: cstring, identifier: cstring): Element {.importcpp.}
