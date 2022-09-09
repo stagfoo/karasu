@@ -32,7 +32,7 @@ func metadata*(title: string): string =
             alert("Successfully Copied!");
             }
           """
-        script src & "https://unpkg.com/openpgp@5.4.0/dist/openpgp.js"
+        script src & "/libs/openpgp.5.4.0.js"
         script src & "/main.js"
 
 func navbar*(id:string, active:string): string =
@@ -47,8 +47,8 @@ func navbar*(id:string, active:string): string =
         
 func actionBox*(id: string, text: string, target: string , placeholder: string, value: string): string =
   return niml:
-      divider id & @id, class & "action box borderless" :
-            textarea name & @id, placeholder & @placeholder:
+      divider id & @id, class & "action box" :
+            textarea name & @id, placeholder & @placeholder, class & "borderless":
               @value
             button class & "primary", type & "button":
               @text
@@ -167,6 +167,17 @@ func keySelector*(title:string, keylist: seq[JsonNode]): string =
         @title
       select name & "selectkey", onchange & "onchangeKeySelector(event)":
         @optionList keylist
+      script:
+        """
+        window.onload = async function() {
+          var firstKey = document.querySelector('select[name=selectkey]').value 
+          var key = await getKeys(firstKey)
+          state.selectedKey = key
+        }
+        async function onchangeKeySelector(e){
+          state.selectedKey = await getKeys(e.target.value)
+        }
+        """
 
 # possible remove this element?
 func allKeylist*(selectedKey: string, keylist: seq[JsonNode]): string =

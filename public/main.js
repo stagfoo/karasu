@@ -93,8 +93,3 @@ async function handleDecryptMessage(armoredKeyPrivateKey, passphrase, armoredMes
   const { data: decrypted } = await decryptMessage(armoredKeyPrivateKey, passphrase, armoredMessage)
   return decrypted;
 }
-
-async function onchangeKeySelector(e){
-  console.log(e.value)
-  state.selectedKey = await getKeys(e.target.value)
-}
