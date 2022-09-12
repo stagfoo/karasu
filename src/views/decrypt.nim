@@ -21,3 +21,12 @@ func template_decrypt*(keylist: seq[JsonNode]): string =
                   @keySelector "Decrypt for key:", keylist
                   @actionBox "decrypt-box", "decrypt //", "copy-box", "decrypt", ""
                   @actionBox "copy-box", "Copy []", "copy-box", "your encrypted string will appear here", ""
+              script:
+                """
+                document.querySelector('#decrypt-box button').addEventListener('click', async (e) => {
+                  const passphrase = prompt("enter your passphase")
+                  const data = await handleDecryptMessage(state.selectedKey.private, passphrase, document.querySelector('#decrypt-box textarea').value)
+                  console.log('data', data)
+                  document.querySelector('#copy-box textarea').value = data
+                })
+                """

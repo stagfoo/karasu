@@ -15,12 +15,22 @@ async function createNewKey(name, email, passphrase) {
   }
 }
 
+
 async function createDecryptionKey(armoredKeyPrivateKey, passphrase) {
-  const privateKey =  await openpgp.decryptKey({
-    privateKey: await openpgp.readPrivateKey({ armoredKey: armoredKeyPrivateKey }),
-    passphrase: passphrase
+  const privateKey = await openpgp.readPrivateKey({ armoredKey: armoredKeyPrivateKey}); 
+  await Promise.all(
+      privateKey.getKeys().map(async ({keyPacket}) => { 
+        if (keyPacket.isDecrypted()) {
+          await keyPacket.encrypt(passphrase);
+          keyPacket.clearPrivateParams();
+        }
+      })
+    );
+  const privateKeyPass = await openpgp.decryptKey({
+      privateKey: privateKey,
+      passphrase
   });
-  return privateKey
+  return privateKeyPass
 }
 async function createEncryptionKey(armoredKeyPublicKey) {
   return await openpgp.readKey({ armoredKey: armoredKeyPublicKey });
@@ -43,7 +53,7 @@ async function decryptMessage(armoredKeyPrivateKey, passphrase, armoredMessage) 
 
 async function saveKeys(key) {
   const response = await fetch('/json/key-created', {
-    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    method: 'POST',
     mode: 'cors', 
     cache: 'no-cache', 
     credentials: 'same-origin', 
@@ -90,6 +100,9 @@ async function handleEncryptMessage(armoredKeyPublicKey, message){
 }
 
 async function handleDecryptMessage(armoredKeyPrivateKey, passphrase, armoredMessage) {
-  const { data: decrypted } = await decryptMessage(armoredKeyPrivateKey, passphrase, armoredMessage)
-  return decrypted;
+  const data = await decryptMessage(armoredKeyPrivateKey, passphrase, armoredMessage)
+  if(data.data){
+    return data.data;
+  }
+  return new Error("Failed to decrypt")
 }
