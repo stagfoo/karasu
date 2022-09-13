@@ -2,6 +2,7 @@ import jester
 import logging
 import niml
 import jsony
+
 # Crypto imports
 import murmurhash
 import flatdb
@@ -15,7 +16,6 @@ import views/decrypt
 import views/keys
 import views/components
 import types
-import data/database
 import domain
 
 type
@@ -53,7 +53,7 @@ routes:
     # I cant find docs on how to return all options?
     # get all ids that have a name
     var keys = db.query(has("name"))
-    resp template_keys(keys, selectedKeyId)
+    resp template_keys(keys, selectedKey)
   get "/keys/new":
     resp template_key_create()
   get "/keys/import":
