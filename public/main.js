@@ -106,3 +106,18 @@ async function handleDecryptMessage(armoredKeyPrivateKey, passphrase, armoredMes
   }
   return new Error("Failed to decrypt")
 }
+
+function toggleModel(){
+  const model = document.querySelector('#model');
+  if (model.classList.contains('hidden')) {
+    model.classList = ""
+  } else {
+    model.classList = "hidden"
+  }
+}
+
+function copyToClipboard(copyText) {
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); // For mobile devices
+  navigator.clipboard.writeText(copyText.value);
+}

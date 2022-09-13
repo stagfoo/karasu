@@ -185,3 +185,10 @@ func allKeylist*(selectedKey: string, keylist: seq[JsonNode]): string =
         divider id & "key-list", class & "box ghost":
           @keySelector "Info for key:", keylist
           # rethink how to do this selec logic 
+func model*(title:string): string =
+  return niml:
+          divider id & "model", class & "hidden":
+            divider class & "body":
+              label:
+                @title
+              input name & @title, type & "text"

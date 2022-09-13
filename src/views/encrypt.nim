@@ -16,6 +16,7 @@ func template_encrypt*(keylist: seq[JsonNode]): string =
           divider id & "app":
             @navbar "navbar", "encrypt"
             divider class & "page":
+              # REMOVE FORM
               form `hx-post` & "encrypt", `hx-target` & "#copy-box", `hx-swap` & "outerHTML":
                 divider class & "grid-container grid-1-2-2-v":
                   @keySelector "Encrpyt for key:", keylist
