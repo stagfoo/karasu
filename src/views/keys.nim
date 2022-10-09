@@ -16,7 +16,7 @@ func template_keys*(keylist: seq[JsonNode], selectedKeyId: string): string =
             divider class & "page":
               divider class & "grid-container":
                 @allKeylist selectedKeyId, keylist
-                @keyInfo "Key Info:"
+                @keyInfo "Key Info:", keylist[0]
                 divider class & "box ghost":
                   divider class & "grid-container grid-1-1-h":
                     button class & "button secondary":

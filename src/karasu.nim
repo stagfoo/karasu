@@ -59,7 +59,8 @@ routes:
   get "/keys/import":
     resp template_key_import()
   get "/x/key-select/details":
-    resp keyInfo("selected-key")
+    var keys = db.query(has("name"))
+    resp keyInfo("selected-key", keys[0])
   get "/x/key-select/@name":
     echo "key selected: " & @"name"
     var keys = db.query(has("name"))

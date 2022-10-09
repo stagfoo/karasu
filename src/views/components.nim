@@ -84,15 +84,21 @@ func keyInfoInput*(label: string, value: string, disabled:bool): string =
               @label
             input name & @label, class & @("htmx-include input-" & label), type & "text", value & @value
 
-func keyInfo*(title: string): string =
+func keyInfo*(title: string,  item: JsonNode): string =
+  var name = item["name"].getStr()
+  var email = item["email"].getStr()
+  var priv = item["private"].getStr()
+  var keyType = "Single Key"
+  if priv.len > 0:
+    keyType = "Pair Key"
   return niml:
       divider class & "box borderless padding-0":
         p:
           @title
-        @keyInfoInput "name", "alex", true
-        @keyInfoInput "email", "alex@email.com", true
+        @keyInfoInput "name", name, true
+        @keyInfoInput "email", email, true
         @keyInfoInput "crypto", "PGP", true
-        @keyInfoInput "type", "Single Key", true
+        @keyInfoInput "type", keyType, true
 
 func createKeyInfo*(title: string): string =
   return niml:
@@ -175,7 +181,11 @@ func keySelector*(title:string, keylist: seq[JsonNode]): string =
           state.selectedKey = key
         }
         async function onchangeKeySelector(e){
+          //shenanigans
           state.selectedKey = await getKeys(e.target.value)
+          document.querySelector('.input-name').value = state.selectedKey.name
+          document.querySelector('.input-email').value = state.selectedKey.email
+          document.querySelector('.input-type').value = state.selectedKey.private.length > 0 ? "Pair Key" : "Single Key"
         }
         """
 
