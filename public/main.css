@@ -232,6 +232,15 @@ select {
   gap: 16px;
   height: 89vh;
 }
+.grid-1-2-2-v {
+  grid-template-rows: 1fr 6fr 6fr;
+  gap: 16px;
+  height: 89vh;
+}
+.grid-auto-v {
+  gap: 16px;
+  height: 90vh;
+}
 .grid-1-2-h {
   grid-template-columns: 1fr 2fr;
   gap: 0;

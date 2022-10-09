@@ -19,7 +19,7 @@ async function createNewKey(name, email, passphrase) {
 async function createDecryptionKey(armoredKeyPrivateKey, passphrase) {
   const privateKey = await openpgp.readPrivateKey({ armoredKey: armoredKeyPrivateKey}); 
   await Promise.all(
-      privateKey.getKeys().map(async ({keyPacket}) => { 
+      privateKey.getKeys().map(async ({keyPacket}) => {
         if (keyPacket.isDecrypted()) {
           await keyPacket.encrypt(passphrase);
           keyPacket.clearPrivateParams();
@@ -39,6 +39,7 @@ async function createEncryptionKey(armoredKeyPublicKey) {
 async function encryptMessage(armoredKeyPublicKey, text) {
   return await openpgp.encrypt({
     message: await openpgp.createMessage({ text }),
+    rejectPublicKeyAlgorithms: [],
     encryptionKeys: await createEncryptionKey(armoredKeyPublicKey)
 });
 }

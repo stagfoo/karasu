@@ -122,20 +122,36 @@ func createKeyInfo*(title: string): string =
 
 func importKeyInfo*(title: string): string =
   return niml:
-    form `hx-post` & "/x/key-imported", `hx-target` & "#actions":
       #copy this for create as well
-      divider class & "grid-container grid-1-2-2-v":
+      divider class & "grid-container grid-auto-v":
         p:
           @title
+        divider class & "borderless padding-0":
+          @keyInfoInput "name", "", false
+          @keyInfoInput "email", "", false
         divider id & "public-key", class & "action box" :
-              textarea name & "public-key", class & "borderless htmx-include", placeholder & "paste your public key"
+              textarea name & "public-key", class & "borderless", placeholder & "paste your public key"
         divider id & "private-key", class & "action box" :
-              textarea name & "private-key", class & "borderless htmx-include", placeholder & "paste your private key"
+              textarea name & "private-key", class & "borderless", placeholder & "paste your private key"
         divider id & "actions":
           a class & "button secondary", href & "/keys":
             "Cancel X"
-          button class & "button primary", type & "submit" :
+          button id & "import-button", class & "button primary", type & "button" :
             "Import Key/s <<"
+        script:
+          """
+          document.querySelector('#import-button').addEventListener('click', async (e) => {
+            const name = document.querySelector('input[name=name]').value
+            const email = document.querySelector('input[name=email]').value
+            const pub = document.querySelector('#public-key textarea').value
+            const priv = document.querySelector('#private-key textarea').value
+            state.selectedKey.private = priv
+            state.selectedKey.public = pub
+            state.selectedKey.name = name
+            state.selectedKey.email = email
+            saveKeys(state.selectedKey)
+          })
+          """
 
 
 func optionList(keylist: seq[JsonNode]): string =
