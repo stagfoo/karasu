@@ -1,7 +1,0 @@
-- [ ] setup design system like normal chumbucket
-- [x] setup nice statemangage organization
-- [x] create the 6 files (ui,url,actions,store,main,styles)
-- [x] add build instructures
-- [ ] do a fetch network call in dart ()
-- [ ] refactor the UX for adding bubbles (./bubble-ux.md)
-- [ ] add new manga book page view (./import-manga.md)
