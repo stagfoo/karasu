@@ -1,1 +1,0 @@
-bin/viewer & bin/karasu

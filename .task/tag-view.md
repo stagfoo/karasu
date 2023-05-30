@@ -1,0 +1,2 @@
+- [] split sentances into words
+- [] store words as tag objects

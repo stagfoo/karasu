@@ -1,0 +1,14 @@
+const String CREATE = "create new [*]";
+const String ENCRYPT = "encrypt //";
+const String DECRYPT = "decrypt //";
+const String CANCEL = "cancel x<";
+const String COPY = "copy []";
+const String DELETE = "delete x";
+const String IMPORT = "import <<";
+const String FOR_KEYS = "for keys";
+const String SELECTED_KEYS_INFO = "░ selected keys info:";
+const String KEY_LIBRARY = "key library";
+const String PASTE_NEW_PUBLIC_KEY = "paste new public key";
+const String PASTE_NEW_PRIVATE_KEY = "paste new private key";
+const String CREATE_NEW_PAIR = "create new pair";
+const String ENTER_TEXT = "enter text";

@@ -1,35 +1,33 @@
-<p align="center"><img width="250px" src="/bin/icon-dark.png" />
+<p align="center"><img width="250px" src="./assets/Icon-256.png" />
 </p>
-<p align="center">a simple app to encrypt and descrypt message for transfering over unsecure messaging apps</p>
-<hr>
+<p align="center">an app to encrypt and decrypt message for transferring over non-secure messaging apps</p>
 
-# why would you do such a thing?
-- use nim as much as possible
+---
+
+# Get Started
+
+run in development
+
+```bash
+flutter run -d linux
+# flutter run -d macos
+# flutter run -d windows
+```
+Press `r` in the terminal to reload in application
+
+---
+
+## Why make this?
+
 - make using pgp encryption easy and nice
-- learn htmx or "go back to monke"
-- learn nim
-- test alternative to electron 
+- test alternative to electron
+- test toml as a nice way to share data offline
+---
 
-## Libraries
-- ~~sequoia-pgp key generation (https://github.com/ba0f3/sequoia.nim)~~
-- some PGP library? currently the endpoints return dumby stuff
-- server - https://github.com/dom96/jester
-- HTMX for reactive programing over HTTP (https://htmx.org/)
-- HTML DSL https://github.com/jakubDoka/niml
-- webview -  New-style Zaitsev's webview wrapper (nimble seems broken so just included in `src/libs`
-- database - flatdb (will get url later)
+More information in my blog post: [Bringing back dumb programs](https://blog.stagfoo.com/post/dumb-programs/)
 
-## build app
-```
-nimble install;
-./build;
-./run;
-```
-
-# Design
-
-https://www.figma.com/file/CWDTl87o4mTwwVq0ANuy0C/karasu?node-id=0%3A1
-
-- some screen may differ after creation
-
-
+## Why move away from nim
+- it was difficult to make gui apps because if lack of libraries
+- it was hard to find libraries for common things
+- it just ended up being a web project with a tiny bit of nim
+- webview libraries were hard to handle cross platform.
