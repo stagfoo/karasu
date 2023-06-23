@@ -27,7 +27,7 @@ Press `r` in the terminal to reload in application
 More information in my blog post: [Bringing back dumb programs](https://blog.stagfoo.com/post/dumb-programs/)
 
 ## Why move away from nim
-- it was difficult to make gui apps because if lack of libraries
+- it was difficult to make gui apps because of the lack of libraries
 - it was hard to find libraries for common things
-- it just ended up being a web project with a tiny bit of nim
+- it just ended up being a web project with a nim web server
 - webview libraries were hard to handle cross platform.
